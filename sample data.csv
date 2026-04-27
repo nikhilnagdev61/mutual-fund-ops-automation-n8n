@@ -1,0 +1,24 @@
+customer_id,customer_name,fund_name,category,invested_amount,current_value,monthly_sip,kyc_status,return_pct,alert_status,recommended_action
+C001, Aarav Sharma, Axis Bluechip Fund, Large Cap,100000,106500,5000, Verified,6.5, Healthy, No action needed
+C002, Neha Iyer, Parag Parikh Flexi Cap, Flexi Cap,150000,141000,7000, Verified,-6, Review, Check fund performance and category benchmark
+C003, Rohan Mehta, SBI Small Cap Fund, Small Cap,80000,76000,0, Verified,-5, Ops Issue, SIP inactive — follow up with customer
+C004, Priya Nair, HDFC Balanced Advantage Fund, Hybrid,120000,124000,3000, Pending,3.33, KYC Pending, Request KYC completion
+C005, Kabir Khan, ICICI Prudential Nifty 50 Index Fund, Index,90000,93000,2500, Verified,3.33, Healthy, No action needed
+C006, Ananya Rao, Mirae Asset Emerging Bluechip Fund, Large & Mid Cap,200000,186000,10000, Verified,-7, Review, Check fund performance and category benchmark
+C007, Vikram Singh, Kotak Emerging Equity Fund, Mid Cap,75000,80500,4000, Pending,7.33, KYC Pending, Request KYC completion
+C008, Meera Joshi, Nippon India Small Cap Fund, Small Cap,60000,64000,0, Verified,6.67, Ops Issue, SIP inactive — follow up with customer
+C009, Aditya Menon, UTI Nifty 50 Index Fund, Index,50000,52000,2000, Verified,4, Healthy, No action needed
+C010, Sara Khan, Canara Robeco Equity Hybrid Fund, Hybrid,110000,103000,5000, Rejected,-6.36, KYC Pending, Request KYC completion
+C011, Nikhil Nagdev, UTI Nifty 50 Index Fund, Large cap,200000,205000,15000, pending,2.5, KYC Pending, Request KYC completion
+C001, Aarav Sharma, Axis Bluechip Fund, Large Cap,100000,106500,5000, Verified,6.5, Healthy, No action needed
+C002, Neha Iyer, Parag Parikh Flexi Cap, Flexi Cap,150000,141000,7000, Verified,-6, Review, Check fund performance and category benchmark
+C003, Rohan Mehta, SBI Small Cap Fund, Small Cap,80000,76000,0, Verified,-5, Ops Issue, SIP inactive — follow up with customer
+C004, Priya Nair, HDFC Balanced Advantage Fund, Hybrid,120000,124000,3000, Pending,3.33, KYC Pending, Request KYC completion
+C005, Kabir Khan, ICICI Prudential Nifty 50 Index Fund, Index,90000,93000,2500, Verified,3.33, Healthy, No action needed
+C006, Ananya Rao, Mirae Asset Emerging Bluechip Fund, Large & Mid Cap,200000,186000,10000, Verified,-7, Review, Check fund performance and category benchmark
+C007, Vikram Singh, Kotak Emerging Equity Fund, Mid Cap,75000,80500,4000, Pending,7.33, KYC Pending, Request KYC completion
+C008, Meera Joshi, Nippon India Small Cap Fund, Small Cap,60000,64000,0, Verified,6.67, Ops Issue, SIP inactive — follow up with customer
+C009, Aditya Menon, UTI Nifty 50 Index Fund, Index,50000,52000,2000, Verified,4, Healthy, No action needed
+C010, Sara Khan, Canara Robeco Equity Hybrid Fund, Hybrid,110000,103000,5000, Rejected,-6.36, KYC Pending, Request KYC completion
+C011, Nikhil Nagdev, UTI Nifty 50 Index Fund, Large cap,200000,205000,15000, Pending,2.5, KYC Pending, Request KYC completion
+C012, Soham Amin, Quant small cap fund, small cap,500000,600000,20000, Verified,20, Healthy, No action needed

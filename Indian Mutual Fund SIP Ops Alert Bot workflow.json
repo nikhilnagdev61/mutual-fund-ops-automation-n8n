@@ -1,0 +1,308 @@
+{
+  "name": "Indian Mutual Fund SIP Ops Alert Bot",
+  "nodes": [
+    {
+      "parameters": {},
+      "type": "n8n-nodes-base.manualTrigger",
+      "typeVersion": 1,
+      "position": [
+        0,
+        0
+      ],
+      "id": "563509e8-ada0-4db1-8e2c-57009f0f0ab3",
+      "name": "When clicking ‘Execute workflow’"
+    },
+    {
+      "parameters": {
+        "documentId": {
+          "__rl": true,
+          "value": "1GeIi-NucYRwMKbakmmGe4fTnmnT3y9aN2fgbR6GyvrQ",
+          "mode": "list",
+          "cachedResultName": " Mutual Fund SIP Ops Alert Bot",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1GeIi-NucYRwMKbakmmGe4fTnmnT3y9aN2fgbR6GyvrQ/edit?usp=drivesdk"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": 1556931478,
+          "mode": "list",
+          "cachedResultName": "MF_Portfolio",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1GeIi-NucYRwMKbakmmGe4fTnmnT3y9aN2fgbR6GyvrQ/edit#gid=1556931478"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.7,
+      "position": [
+        208,
+        0
+      ],
+      "id": "ae988994-fd57-4614-9fed-c937be852053",
+      "name": "Get row(s) in sheet",
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "AJwNZsNEM3nTkJ0L",
+          "name": "Google Sheets account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "jsCode": "return items.map(item => {\n  const r = item.json;\n\n  const invested = Number(r.invested_amount);\n  const current = Number(r.current_value);\n  const sip = Number(r.monthly_sip);\n  const returnPct = ((current - invested) / invested) * 100;\n\n  let status = \"Healthy\";\n  let action = \"No action needed\";\n\n  if (returnPct < -5) {\n    status = \"Review\";\n    action = \"Check fund performance and category benchmark\";\n  }\n\n  if (sip === 0) {\n    status = \"Ops Issue\";\n    action = \"SIP inactive — follow up with customer\";\n  }\n\n  if (r.kyc_status !== \"Verified\") {\n    status = \"KYC Pending\";\n    action = \"Request KYC completion\";\n  }\n\n  return {\n    json: {\n      ...r,\n      return_pct: returnPct.toFixed(2),\n      alert_status: status,\n      recommended_action: action\n    }\n  };\n});"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        416,
+        0
+      ],
+      "id": "96fc7ca2-892f-4881-9b94-41a1499bb0e0",
+      "name": "Code in JavaScript"
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 3
+          },
+          "conditions": [
+            {
+              "id": "cc2f458d-f577-4305-9651-b6354623f11e",
+              "leftValue": "alert_status",
+              "rightValue": "Healthy",
+              "operator": {
+                "type": "string",
+                "operation": "notEquals"
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.3,
+      "position": [
+        624,
+        0
+      ],
+      "id": "12842ac1-663b-4753-af7d-6892dc009b3b",
+      "name": "If"
+    },
+    {
+      "parameters": {
+        "operation": "append",
+        "documentId": {
+          "__rl": true,
+          "value": "1GeIi-NucYRwMKbakmmGe4fTnmnT3y9aN2fgbR6GyvrQ",
+          "mode": "list",
+          "cachedResultName": " Mutual Fund SIP Ops Alert Bot",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1GeIi-NucYRwMKbakmmGe4fTnmnT3y9aN2fgbR6GyvrQ/edit?usp=drivesdk"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": 624005306,
+          "mode": "list",
+          "cachedResultName": "MF_Alerts",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1GeIi-NucYRwMKbakmmGe4fTnmnT3y9aN2fgbR6GyvrQ/edit#gid=624005306"
+        },
+        "columns": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "customer_id": "={{$json[\"customer_id\"]}}",
+            "customer_name": "= {{$json[\"customer_name\"]}}",
+            "fund_name": "= {{$json[\"fund_name\"]}}",
+            "category": "= {{$json[\"category\"]}}",
+            "invested_amount": "= {{$json[\"invested_amount\"]}}",
+            "current_value": "= {{$json[\"current_value\"]}}",
+            "monthly_sip": "= {{$json[\"monthly_sip\"]}}",
+            "kyc_status": "= {{$json[\"kyc_status\"]}}",
+            "return_pct": "= {{$json[\"return_pct\"]}}",
+            "alert_status": "= {{$json[\"alert_status\"]}}",
+            "recommended_action": "= {{$json[\"recommended_action\"]}}"
+          },
+          "matchingColumns": [],
+          "schema": [
+            {
+              "id": "customer_id",
+              "displayName": "customer_id",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "customer_name",
+              "displayName": "customer_name",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "fund_name",
+              "displayName": "fund_name",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "category",
+              "displayName": "category",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "invested_amount",
+              "displayName": "invested_amount",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "current_value",
+              "displayName": "current_value",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "monthly_sip",
+              "displayName": "monthly_sip",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "kyc_status",
+              "displayName": "kyc_status",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "return_pct",
+              "displayName": "return_pct",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "alert_status",
+              "displayName": "alert_status",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "recommended_action",
+              "displayName": "recommended_action",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.7,
+      "position": [
+        832,
+        -96
+      ],
+      "id": "43cae4a5-d039-46f8-87e6-65b9fe5398b8",
+      "name": "Append row in sheet",
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "HmVEff0XBhIy0PP5",
+          "name": "Google Sheets OAuth2 API"
+        }
+      }
+    }
+  ],
+  "pinData": {},
+  "connections": {
+    "When clicking ‘Execute workflow’": {
+      "main": [
+        [
+          {
+            "node": "Get row(s) in sheet",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Get row(s) in sheet": {
+      "main": [
+        [
+          {
+            "node": "Code in JavaScript",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Code in JavaScript": {
+      "main": [
+        [
+          {
+            "node": "If",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "If": {
+      "main": [
+        [
+          {
+            "node": "Append row in sheet",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": false,
+  "settings": {
+    "executionOrder": "v1",
+    "binaryMode": "separate"
+  },
+  "versionId": "7dda9766-f60c-4070-bb0f-0b84332fd196",
+  "meta": {
+    "templateCredsSetupCompleted": true,
+    "instanceId": "34797bcb6430ec6f6afeefa8a14effd61e90f0fee9b3ee3de44475268e3b446c"
+  },
+  "id": "R72tcydITExNj7gy",
+  "tags": []
+}
